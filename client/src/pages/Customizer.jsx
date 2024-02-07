@@ -18,15 +18,22 @@ const Customizer = () => {
     const [prompt, setPrompt] = useState('');
     const [generatingImg, setgeneratingImg] = useState(false);
 
-    const[actviveEditorTab, setActiveEditorTab] = useState(" ");
+    const[activeEditorTab, setActiveEditorTab] = useState("");
     const[activeFilterTab, setActiveFilterTab] = useState({
         logoShirt: true,
         stylishShirt: false,
     })
 
+const toggleTab = (tabName) => {
+    
+    setActiveEditorTab(currentTab => currentTab === tabName ? "" : tabName);
+};
+
+
 //show the tab content depending on the active tab
+
 const genearateTabContent = () => { 
-    switch(actviveEditorTab){
+    switch(activeEditorTab){
         case "colorchooser":
             return <ColorChooser />;
         case "filechooser":
@@ -47,7 +54,9 @@ const genearateTabContent = () => {
         default:
             return null;
     }
-}
+};
+
+
 
 const handleSubmit = async (type) => {
     if(!prompt) return alert("Please enter a prompt");
@@ -55,7 +64,7 @@ const handleSubmit = async (type) => {
     try{
        setgeneratingImg(true);
 
-       const response = await fetch('http://localhost:8080/api/v1/dalle', {
+       const response = await fetch('https://threejs-ai-project-2q72.onrender.com/api/v1/dalle', {
            method: 'POST',
            headers: {
                'Content-Type': 'application/json'
@@ -100,6 +109,7 @@ const handleActiveFilterTab = (tabName) => {
             
     }
 
+      
     // setting the state once the activeFilterTab changes/updated 
 
 setActiveFilterTab((prevState) => {
@@ -135,7 +145,9 @@ const readFile = (type) =>{
                             <Tab
                                 key={tab.name}
                                 tab={tab}
-                                handleClick={() => setActiveEditorTab(tab.name)} 
+                                handleClick={() => toggleTab(tab.name)}
+                                
+                                
                             />
                         ))}
 
@@ -165,6 +177,7 @@ const readFile = (type) =>{
                     isFilterTab
                     isActiveTab ={activeFilterTab[tab.name]}
                     handleClick={() => handleActiveFilterTab(tab.name)}
+                   
                 />
             ))}
             </motion.div>

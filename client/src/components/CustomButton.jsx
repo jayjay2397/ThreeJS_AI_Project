@@ -6,6 +6,7 @@ import { getContrastingColor } from '../config/helpers';
 
 const CustomButton = ({type, title, customStyles, handleClick}) => {
     const snap = useSnapshot(state);
+
     const generateStyle = (type) => {
     if(type === 'filled') {
         return {
@@ -27,8 +28,7 @@ const CustomButton = ({type, title, customStyles, handleClick}) => {
     style={generateStyle(type)}
     onClick={handleClick}
     >
-        {title}
-        
+        {title}      
     </button>
   )
 }
